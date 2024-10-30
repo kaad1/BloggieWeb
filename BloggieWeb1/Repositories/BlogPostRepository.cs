@@ -20,24 +20,53 @@ namespace BloggieWeb1.Repositories
             return blogPost;
         }
 
-        public Task<BlogPost?> DeleteAsync(Guid id)
+        public async Task<BlogPost?> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var existingBlog = await _bloggieDbContext.BlogPosts.FindAsync(id);
+            if (existingBlog != null) {
+
+                _bloggieDbContext.BlogPosts.Remove(existingBlog);
+                await _bloggieDbContext.SaveChangesAsync();
+                return existingBlog;
+            }
+            return null;
         }
 
         public async Task<IEnumerable<BlogPost>> GetAllAsync()
         {
-           return await _bloggieDbContext.BlogPosts.ToListAsync();
+           return await _bloggieDbContext.BlogPosts.Include(x=>x.Tags).ToListAsync();
         }
 
-        public Task<BlogPost> GetAsync(Guid id)
+        public async Task<BlogPost> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+
+          return await _bloggieDbContext.BlogPosts.Include(x=>x.Tags).FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<BlogPost> UpdateAsync(BlogPost blogPost)
+        public async Task<BlogPost> UpdateAsync(BlogPost blogPost)
         {
-            throw new NotImplementedException();
+
+           var existingTag= await _bloggieDbContext.BlogPosts.Include(x=>x.Tags).FirstOrDefaultAsync(x => x.Id == blogPost.Id);
+            if (existingTag != null) 
+            {
+                existingTag.Id= blogPost.Id;
+                existingTag.Heading = blogPost.Heading;
+                existingTag.PageTitle = blogPost.PageTitle;
+                existingTag.Content = blogPost.Content;
+                existingTag.ShortDescription = blogPost.ShortDescription;
+                existingTag.Author = blogPost.Author;
+                existingTag.FeaturedImageUrl = blogPost.FeaturedImageUrl;
+                existingTag.UrlHandle = blogPost.UrlHandle;
+                existingTag.Visible = blogPost.Visible;
+                existingTag.Tags = blogPost.Tags;
+                existingTag.PublishedDate = blogPost.PublishedDate;
+
+                await _bloggieDbContext.SaveChangesAsync();
+                return existingTag;
+
+            }
+            return null;
+        
         }
     }
 }

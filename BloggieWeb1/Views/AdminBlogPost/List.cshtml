@@ -16,19 +16,32 @@
                 <tr>
                     <td>Id</td>
                     <td>Heading</td>
-                    <td>Display Name</td>
-                    <th></th>
-                    <th></th>
+                    <td>Tags</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var blogposts in Model)
+                @foreach (var blogpost in Model)
                 {
                     <tr>
-                        <td>@blogposts.Id</td>
-                        <td>@blogposts.Heading</td>
-                        
-                        
+                        <td>@blogpost.Id</td>
+                        <td>@blogpost.Heading</td>
+                        <td>
+                            <div class="d-flex">
+                            @foreach(var tag in blogpost.Tags)
+                            {
+                                <span class="badge bg-secondary me-1">@tag.Name</span>
+                            }
+                            </div>
+                        </td>
+                        <td>
+                        <a  asp-area=""
+                            asp-controller="AdminBlogPost"
+                            asp-action="Edit"
+                            asp-route-id="@blogpost.Id">
+                            Edit
+                        </a>
+                        </td>
 
                     </tr>
                 }
