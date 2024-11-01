@@ -12,13 +12,11 @@ namespace BloggieWeb1
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            var connectionString = builder.Configuration.GetConnectionString(
-"DefaultConnection") ?? throw new InvalidCastException("Default Connection not found");
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidCastException("Default Connection not found");
             builder.Services.AddScoped<ITagRepository, TagRepository>();
             builder.Services.AddScoped<IBlogPostRespository, BlogPostRepository>(); 
-
+            builder.Services.AddScoped<IImageRepository, CloudinaryImageRepository>();
             builder.Services.AddDbContext<BloggieDbContext>( options =>  options.UseSqlServer(connectionString) );
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
