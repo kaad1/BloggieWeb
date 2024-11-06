@@ -43,6 +43,12 @@ namespace BloggieWeb1.Repositories
           return await _bloggieDbContext.BlogPosts.Include(x=>x.Tags).FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<BlogPost?> GetByUrlHandleAsync(string urlHandle)
+        {
+          return  await _bloggieDbContext.BlogPosts.Include(x => x.Tags)
+                .FirstOrDefaultAsync(x=> x.UrlHandle== urlHandle);
+        }
+
         public async Task<BlogPost> UpdateAsync(BlogPost blogPost)
         {
 
@@ -68,5 +74,7 @@ namespace BloggieWeb1.Repositories
             return null;
         
         }
+
+        
     }
 }
