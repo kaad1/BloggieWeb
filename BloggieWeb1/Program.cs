@@ -1,5 +1,6 @@
 using BloggieWeb1.Data;
 using BloggieWeb1.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace BloggieWeb1
@@ -17,6 +18,10 @@ namespace BloggieWeb1
             builder.Services.AddScoped<IBlogPostRespository, BlogPostRepository>(); 
             builder.Services.AddScoped<IImageRepository, CloudinaryImageRepository>();
             builder.Services.AddDbContext<BloggieDbContext>( options =>  options.UseSqlServer(connectionString) );
+            builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("BlogieAuthDbConnectionString")));
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AuthDbContext>();
+           
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -31,7 +36,7 @@ namespace BloggieWeb1
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

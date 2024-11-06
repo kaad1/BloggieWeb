@@ -39,8 +39,11 @@
                   </div>
 
                 <div class="mb-3">
-                    <label class="form-label"> Featured ImageUrl Upload</label>
-                    <input type="text" class="form-control" id="featuredimgurl" asp-for="FeaturedImageUrl" />
+                   
+                    <div class="mb-3">
+                        <label class="form-label">Featured Image Upload</label>
+                        <input type="file" id="featuredImageUpload" class="form-control" />
+                    </div>
                     @if (Model.FeaturedImageUrl != null)
                     {
                         <img src="" id="@Model.FeaturedImageUrl" style="display:block; width:300px;" />
@@ -108,7 +111,9 @@
  @section Scripts
  {
      <script>
-         var editor= new FroalaEditor('#content')
+         var editor= new FroalaEditor('#content'{
+             imageUploadUrl_ '/api/images'
+         });
 
         const featuredUploadElement = document.getElementById("featuredImageUpload");
         const featuredImageUrlElement = document.getElementById("featuredimgurl")
