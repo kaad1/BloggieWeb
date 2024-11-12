@@ -1,6 +1,7 @@
 ﻿using BloggieWeb1.Models.Domain;
 using BloggieWeb1.Models.Domain.ViewModels;
 using BloggieWeb1.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Cryptography;
@@ -16,6 +17,8 @@ namespace BloggieWeb1.Controllers
             _tagRepository = tagRepository; 
             _blogPostRespository = blogPostRespository; 
         }
+       
+        [Authorize(Roles ="Admin")]
         [HttpGet]
        public async Task <IActionResult> Add()
        {
