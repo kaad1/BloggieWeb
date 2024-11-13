@@ -51,8 +51,9 @@ namespace BloggieWeb1.Controllers
         }
 
         [HttpGet]
-        public async Task <IActionResult> Login()
+        public async Task <IActionResult> Login( )
         {
+           
             return View();
         }
         
@@ -61,6 +62,7 @@ namespace BloggieWeb1.Controllers
           var signInResult= await signInManager.PasswordSignInAsync(loginViewModel.UserName, loginViewModel.Password, false, false);
           if(signInResult != null && signInResult.Succeeded)
             {
+              
                 return RedirectToAction("Index", "Home"); 
             }
 

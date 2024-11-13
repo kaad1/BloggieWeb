@@ -21,6 +21,7 @@ namespace BloggieWeb1
             builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("BlogieAuthDbConnectionString")));
             builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<AuthDbContext>();
+            builder.Services.AddScoped<IBlogPostLikeRepository, BlogPostLikeRepository>();
 
 
             builder.Services.Configure<IdentityOptions>(options =>
