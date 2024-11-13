@@ -54,7 +54,7 @@ namespace BloggieWeb1.Controllers
             return View(tags);
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task  <IActionResult> Edit(Guid id)
         {
@@ -75,7 +75,7 @@ namespace BloggieWeb1.Controllers
 
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public  async Task <IActionResult> Edit(EditTagRequest editTagRequest)
         {
@@ -100,7 +100,7 @@ namespace BloggieWeb1.Controllers
             return RedirectToAction("Edit", new {id=editTagRequest.Id});
 
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public  async Task <IActionResult> Delete(EditTagRequest editTagRequest)
         {

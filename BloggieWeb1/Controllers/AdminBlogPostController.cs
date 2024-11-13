@@ -76,7 +76,8 @@ namespace BloggieWeb1.Controllers
 
             return View(blogPost);
         }
-       
+        [Authorize(Roles = "Admin")]
+    
         [HttpGet]
         public  async Task <IActionResult> Edit(Guid id)
         {
@@ -116,6 +117,7 @@ namespace BloggieWeb1.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task <IActionResult> Edit(EditBlogPostRequest editBlogPostRequest)
         {
@@ -165,7 +167,7 @@ namespace BloggieWeb1.Controllers
             return RedirectToAction("Edit");
         }
 
-
+        [Authorize(Roles = "Admin")]
         public async Task <IActionResult> Delete(EditBlogPostRequest editBlogPostRequest)
         {
             // Talk to respository to delete this blog post and tags 
