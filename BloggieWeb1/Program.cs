@@ -22,7 +22,7 @@ namespace BloggieWeb1
             builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<AuthDbContext>();
             builder.Services.AddScoped<IBlogPostLikeRepository, BlogPostLikeRepository>();
-
+            builder.Services.AddScoped<IBlogPostCommentRepository, BlogPostCommentRepository>();
 
             builder.Services.Configure<IdentityOptions>(options =>
             {
