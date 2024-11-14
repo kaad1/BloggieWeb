@@ -1,5 +1,6 @@
 ﻿using BloggieWeb1.Data;
 using BloggieWeb1.Models.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace BloggieWeb1.Repositories
 {
@@ -17,6 +18,12 @@ namespace BloggieWeb1.Repositories
             await bloggieDbContext.SaveChangesAsync();  
 
             return blogPostComment;
+        }
+
+        public async Task<IEnumerable<BlogPostComment>> GetCommentsByBlogIdAsync(Guid blogPostId)
+        {
+           return await bloggieDbContext.BlogPostComment.Where(x => x.BlogPostId == blogPostId)
+           .ToListAsync();
         }
     }
 }
