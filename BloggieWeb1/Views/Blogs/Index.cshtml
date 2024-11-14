@@ -27,12 +27,22 @@
                 <div class="mb-3">
                     @if (signInManager.IsSignedIn(User))
                     {
-                        <a id="btnLike" style="cursor: pointer">
+                        @if (Model.Liked)
+                        {
+                            <a  style="cursor: pointer">
 
-                            <i class="bi bi-hand-thumbs-up"></i>
-                        </a>
+                                <i class="bi bi-hand-thumbs-up-fill"></i>
+                            </a>
+                        }
+                        else
+                        {
+                           <a id="btnLike" style="cursor: pointer">
+                          
+                               <i class="bi bi-hand-thumbs-up"></i>
+                           </a>
+                        }
                     }
-                    <span>@Model.TotalLikes</span>
+                    <span id="totlLikes">@Model.TotalLikes</span>
                 </div>
 
                <div class="mb-3 d-flex">
@@ -62,20 +72,36 @@
 
     <script>
         const btnLikeElement = document.getElementById("btnLike");
+        const totalLikeElement = document.getElementById('totlLikes');
+
+        async function getTotaLikes() {
+            fetch('/api/blogpostlike/@Model.Id/totalLikes', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*'
+                }
+            }).then(data => data.json())
+              .then(result => totalLikeElement.innerHTML = result);
+        }
 
         async function addLikeForBlog(){
-            fetch('/api/BlogPostLike/Add',{
+            fetch('/api/BlogPostLike/Add', {
                 method: 'Post',
                 headers: {
-                    'Content-Type':'application/json',
+                    'Content-Type': 'application/json',
                     'Accept': '*/*'
                 },
-                body: JSON.stringify({ blogPostId:'@Model.Id'
+                body: JSON.stringify({
+                    blogPostId: '@Model.Id'
                     , userId: '@userManager.GetUserId(User)'
                 })
-               
-            })
-                .then(console.log('Reuquest finished'))
+
+            }).then(() => {
+                btnLikeElement.innerHTML = '<i class="bi bi-hand-thumbs-up-fill"></i>';
+                btnLikeElement.removeEventListener('click', addLikeForBlog);
+                getTotaLikes();
+            });
         }
 
 
